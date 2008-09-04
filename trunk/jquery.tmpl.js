@@ -1,5 +1,5 @@
 /*
- * jQuery Simple Templates plugin 1.0
+ * jQuery Simple Templates plugin 1.0.1
  *
  * http://andrew.hedges.name/tmpl/
  * http://docs.jquery.com/Plugins/Tmpl
@@ -24,13 +24,15 @@
 			tmpl   = tmpl   || '';
 			values = values || {};
 			
-			$.each(matches, function () {
-				var id;
-				id = this.substring(2, this.length - 1);
-				if ('undefined' !== typeof values[id]) {
-					tmpl = tmpl.replace(this, values[id]);
-				}
-			});
+			if (null !== matches) {
+				$.each(matches, function () {
+					var id;
+					id = this.substring(2, this.length - 1);
+					if ('undefined' !== typeof values[id]) {
+						tmpl = tmpl.replace(this, values[id]);
+					}
+				});
+			}
 			
 			return tmpl;
 		}
