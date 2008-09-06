@@ -205,7 +205,7 @@
 					values = values || {};
 					
 					// regular expression for matching our placeholders; e.g., #{my-cLaSs_name77}
-					rgxp = /#{([^{}]*)}/g;
+					rgxp = /#\{([^{}]*)}/g;
 					
 					// function to making replacements
 					repr = function (str, match) {
