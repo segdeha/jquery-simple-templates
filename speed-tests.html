@@ -82,7 +82,7 @@
 			<a href="#" onclick="TESTS.reset();return false;">reset</a>
 		</p>
 		<table>
-			<caption align="bottom">All results  are reported in milliseconds</caption>
+			<caption align="bottom">All results  are reported in milliseconds. Shorter times are better.</caption>
 			<thead>
 				<tr>
 					<th colspan="5">Version 1.0.1</th>
@@ -228,7 +228,7 @@
 				none  : 'This template has no symbols. ',
 				nokey : 'This template has a symbol (#{who-am-i-why-am-i-here?}) not in the replacement object. ',
 				short : 'This is a very #{adjective} template. ',
-				long  : '<div class="#{classname}">This is a longer #{noun}, with more substitutions and more text to search. #{big-substitution} There are some twists in this one, like weird characters (such as #{w31rd_ch@r@ct3rs}) in the key names and #{doubled}#{up} substitutions.</div>'
+				long  : '<div class="#{classname}">This is a longer #{noun}, with more substitutions and more text to search. #{big-substitution} There are some twists in this one, like weird characters (such as #{w31rd_ch@r@ct3rs}) in the key names and #{doubled}#{up} substitutions. #{word-1}#{space}#{word-2}#{space}#{word-3}#{space}#{word-4}#{space}#{word-5}#{dot}</div>'
 			};
 			
 			// values to be substituted
@@ -236,10 +236,17 @@
 				'adjective'			: 'simple',
 				'classname'			: 'result-set',
 				'noun'				: 'template',
-				'big-substitution'	: 'Wherein we substitute a much longer piece of text, one that has the potential to throw off our results by an order of magnitude if some bottleneck exits.',
+				'big-substitution'	: 'Wherein we substitute a much longer piece of text, one that has the potential to throw off our results by an order of magnitude if some bottleneck exists.',
 				'w31rd_ch@r@ct3rs'  : 'numbers, underscores, and "at" signs',
 				'doubled'			: 'immediately ',
-				'up'				: 'adjacent'
+				'up'				: 'adjacent',
+				'word-1'			: 'This',
+				'word-2'			: 'sentence',
+				'word-3'			: 'is',
+				'word-4'			: 'all',
+				'word-5'			: 'substitutions',
+				'space'				: ' ',
+				'dot'				: '.'
 			};
 			
 			// basic timer functions to measure how long each test takes
@@ -347,5 +354,11 @@
 		});
 		
 		</script>
+		<p>
+			<small>Copyright &copy; 2008. All rights reserved.</small>
+		</p>
+		<!-- google analytics -->
+		<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script>
+		<script type="text/javascript">var pageTracker = _gat._getTracker("UA-254616-1");pageTracker._initData();pageTracker._trackPageview();</script>
 	</body>
 </html>
