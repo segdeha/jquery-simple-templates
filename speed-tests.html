@@ -50,21 +50,31 @@
 			line-height: 1.1;
 			background: white;
 			width: 45%;
+			height: 300px;
+			overflow: auto;
 			float: left;
 			padding: 10px;
-			margin-right: 10px;
+			margin: 0 10px 10px 0;
+			border: solid 1px black;
+		}
+		
+		#results div div {
+			float: none;
+			width: auto;
+			height: auto;
 		}
 		
 		</style>
 	</head>
 	<body>
-		<h1>Speed comparison of jQuery Simple Templates 1.0.1 and 1.1</h1>
+		<h1>Speed comparison of jQuery <a href="http://code.google.com/p/jquery-simple-templates/">Simple Templates</a> 1.0.1 and 1.1</h1>
 		<p>
 			Iterations:
 			<select name="iters">
-				<option>10</option>
-				<option selected="selected">100</option>
+				<option>100</option>
+				<option selected="selected">500</option>
 				<option>1000</option>
+				<option>2000</option>
 			</select>
 			<input type="button" onclick="TESTS.test101();" value="Version 1.0.1" disabled="disabled" />
 			<input type="button" onclick="TESTS.test11();" value="Version 1.1" disabled="disabled" />
@@ -93,23 +103,27 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><div id="none-tmpl">&nbsp;</div></td>
-					<td><div id="nokey-tmpl"></div></td>
-					<td><div id="short-tmpl">&nbsp;</div></td>
-					<td><div id="long-tmpl"></div></td>
-					<td class="total"><div id="total-tmpl"></div></td>
-					<td><div id="none-tmpl2">&nbsp;</div></td>
-					<td><div id="nokey-tmpl2"></div></td>
-					<td><div id="short-tmpl2"></div></td>
-					<td><div id="long-tmpl2"></div></td>
-					<td class="total"><div id="total-tmpl2"></div></td>
+					<td><div class="tmpl" id="none-tmpl">&nbsp;</div></td>
+					<td><div class="tmpl" id="nokey-tmpl"></div></td>
+					<td><div class="tmpl" id="short-tmpl">&nbsp;</div></td>
+					<td><div class="tmpl" id="long-tmpl"></div></td>
+					<td class="total"><div class="tmpl" id="total-tmpl"></div></td>
+					<td><div class="tmpl2" id="none-tmpl2">&nbsp;</div></td>
+					<td><div class="tmpl2" id="nokey-tmpl2"></div></td>
+					<td><div class="tmpl2" id="short-tmpl2"></div></td>
+					<td><div class="tmpl2" id="long-tmpl2"></div></td>
+					<td class="total"><div class="tmpl2" id="total-tmpl2"></div></td>
 				</tr>
 			</tbody>
 		</table>
 		<div id="results">
-			<div id="tmpl"></div>
-			<div id="tmpl2"></div>
+			<div class="tmpl" id="tmpl"></div>
+			<div class="tmpl2" id="tmpl2"></div>
 		</div>
+		<hr style="clear: left;" noshade="noshade" size="1">
+		<p>
+			<small>Return to <a href="http://code.google.com/p/jquery-simple-templates/">Simple Templates</a></small>
+		</p>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 		<script type="text/javascript">
 		
@@ -252,7 +266,9 @@
 				}
 				_timer.stop();
 				$('#' + params.length + '-' + params.version).html(_timer.report());
-				$('#' + params.version).append(html);
+				setTimeout(function () {
+					$('#' + params.version).append(html);
+				}, 0);
 				return _timer.report();
 			};
 			
@@ -263,6 +279,7 @@
 					version = 'tmpl';
 					iters   = $('select[name=iters]').val();
 					total   = 0;
+					TESTS.reset(version);
 					total  += _doTest({
 						version : version,
 						length  : 'none',
@@ -290,6 +307,7 @@
 					version = 'tmpl2';
 					iters   = $('select[name=iters]').val();
 					total   = 0;
+					TESTS.reset(version);
 					total  += _doTest({
 						version : version,
 						length  : 'none',
@@ -312,9 +330,14 @@
 					});
 					$('#total-tmpl2').html(total);
 				},
-				reset : function () {
-					$('table td div').html('&nbsp;');
-					$('#results div').empty();
+				reset : function (version) {
+					if ('undefined' === typeof version) {
+						$('table td div').html('&nbsp;');
+						$('#results div').empty();
+					} else {
+						$('table td div.' + version).html('&nbsp;');
+						$('#results div.' + version).empty();
+					}
 				}
 			};
 		})();
