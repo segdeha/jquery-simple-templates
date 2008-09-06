@@ -237,7 +237,7 @@
 				'classname'			: 'result-set',
 				'noun'				: 'template',
 				'big-substitution'	: 'Wherein we substitute a much longer piece of text, one that has the potential to throw off our results by an order of magnitude if some bottleneck exists.',
-				'w31rd_ch@r@ct3rs'  : 'numbers, underscores, and "at" signs',
+				'w31rd_ch@r@ct3rs'	: 'numbers, underscores, and "at" signs',
 				'doubled'			: 'immediately ',
 				'up'				: 'adjacent',
 				'word-1'			: 'This',
@@ -282,58 +282,30 @@
 			// public methods
 			return {
 				test101 : function () {
-					var version, iters, total;
-					version = 'tmpl';
-					iters   = $('select[name=iters]').val();
+					var params, total;
+					params = {
+						version : 'tmpl',
+						iters   : $('select[name=iters]').val()
+					};
 					total   = 0;
-					TESTS.reset(version);
-					total  += _doTest({
-						version : version,
-						length  : 'none',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'nokey',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'short',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'long',
-						iters   : iters
+					TESTS.reset(params.version);
+					$.each(_tmpls, function (idx, val) {
+						params.length = idx;
+						total += _doTest(params);
 					});
 					$('#total-tmpl').html(total);
 				},
 				test11 : function () {
-					var version, iters, total;
-					version = 'tmpl2';
-					iters   = $('select[name=iters]').val();
+					var params, total;
+					params = {
+						version : 'tmpl2',
+						iters   : $('select[name=iters]').val()
+					};
 					total   = 0;
-					TESTS.reset(version);
-					total  += _doTest({
-						version : version,
-						length  : 'none',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'nokey',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'short',
-						iters   : iters
-					});
-					total  += _doTest({
-						version : version,
-						length  : 'long',
-						iters   : iters
+					TESTS.reset(params.version);
+					$.each(_tmpls, function (idx, val) {
+						params.length = idx;
+						total += _doTest(params);
 					});
 					$('#total-tmpl2').html(total);
 				},
