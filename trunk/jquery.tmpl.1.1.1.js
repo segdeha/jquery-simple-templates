@@ -1,5 +1,5 @@
 /*
- * jQuery Simple Templates plugin 1.1
+ * jQuery Simple Templates plugin 1.1.1
  *
  * http://andrew.hedges.name/tmpl/
  * http://docs.jquery.com/Plugins/Tmpl
@@ -27,7 +27,7 @@
 			vals = vals || {};
     		
     		// regular expression for matching our placeholders; e.g., #{my-cLaSs_name77}
-    		rgxp = /#{([^{}]*)}/g;
+    		rgxp = /#\{([^{}]*)}/g;
     		
     		// function to making replacements
     		repr = function (str, match) {
