@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Speed comparison of jQuery Simple Templates 1.0.1 and 1.1</title>
+		<style type="text/css">
+		
+		body {
+			background: #dfdfdf;
+			font: 12px/1.5 Verdana, Sans-Serif;
+		}
+		
+		table {
+			border: solid 1px black;
+			width: 800px;
+			margin: 0;
+			background: #999;
+		}
+		
+		caption {
+			font-style: italic;
+		}
+		
+		th {
+			background: #666;
+			color: white;
+			border: solid 1px black;
+			border-top: none;
+			border-left: none;
+		}
+		
+		td {
+			background: white;
+			color: #666;
+			border-right: solid 1px #666;
+			width: 10%;
+			text-align: center;
+		}
+		
+		td.total {
+			background: #ccf;
+			font-weight: bold;
+		}
+		
+		#results {
+			margin: 1em 0;
+		}
+		
+		#results div {
+			font-size: 10px;
+			line-height: 1.1;
+			background: white;
+			width: 45%;
+			float: left;
+			padding: 10px;
+			margin-right: 10px;
+		}
+		
+		</style>
+	</head>
+	<body>
+		<h1>Speed comparison of jQuery Simple Templates 1.0.1 and 1.1</h1>
+		<p>
+			Iterations:
+			<select name="iters">
+				<option>10</option>
+				<option selected="selected">100</option>
+				<option>1000</option>
+			</select>
+			<input type="button" onclick="TESTS.test101();" value="Version 1.0.1" disabled="disabled" />
+			<input type="button" onclick="TESTS.test11();" value="Version 1.1" disabled="disabled" />
+			&#8212;
+			<a href="#" onclick="TESTS.reset();return false;">reset</a>
+		</p>
+		<table>
+			<caption align="bottom">All results  are reported in milliseconds</caption>
+			<thead>
+				<tr>
+					<th colspan="5">Version 1.0.1</th>
+					<th colspan="5">Version 1.1</th>
+				</tr>
+				<tr>
+					<th>None</th>
+					<th>No Key</th>
+					<th>Short</th>
+					<th>Long</th>
+					<th>Total</th>
+					<th>None</th>
+					<th>No Key</th>
+					<th>Short</th>
+					<th>Long</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><div id="none-tmpl">&nbsp;</div></td>
+					<td><div id="nokey-tmpl"></div></td>
+					<td><div id="short-tmpl">&nbsp;</div></td>
+					<td><div id="long-tmpl"></div></td>
+					<td class="total"><div id="total-tmpl"></div></td>
+					<td><div id="none-tmpl2">&nbsp;</div></td>
+					<td><div id="nokey-tmpl2"></div></td>
+					<td><div id="short-tmpl2"></div></td>
+					<td><div id="long-tmpl2"></div></td>
+					<td class="total"><div id="total-tmpl2"></div></td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="results">
+			<div id="tmpl"></div>
+			<div id="tmpl2"></div>
+		</div>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+		<script type="text/javascript">
+		
+		/*
+		 * jQuery Simple Templates plugin 1.0.1
+		 *
+		 * http://andrew.hedges.name/tmpl/
+		 * http://docs.jquery.com/Plugins/Tmpl
+		 *
+		 * Copyright (c) 2008 Andrew Hedges, andrew@hedges.name
+		 *
+		 * Usage: $.tmpl('<div class="#{classname}">#{content}</div>', { 'classname' : 'my-class', 'content' : 'My content.' });
+		 * 
+		 * Dual licensed under the MIT and GPL licenses:
+		 *   http://www.opensource.org/licenses/mit-license.php
+		 *   http://www.gnu.org/licenses/gpl.html
+		 */
+		
+		(function($) {
+			$.extend({
+				// public interface: $.tmpl
+				tmpl : function(tmpl, values) {
+					// regular expression for matching our placeholders; e.g., #{my-cLaSs_name77}
+					var matches = tmpl.match(/\#\{([A-Za-z0-9-_]+)\}/g);
+					
+					// default to doing no harm
+					tmpl   = tmpl   || '';
+					values = values || {};
+					
+					if (null !== matches) {
+						$.each(matches, function () {
+							var id;
+							id = this.substring(2, this.length - 1);
+							if ('undefined' !== typeof values[id]) {
+								tmpl = tmpl.replace(this, values[id]);
+							}
+						});
+					}
+					
+					return tmpl;
+				}
+			});
+		})(jQuery);
+		
+		</script>
+		<script type="text/javascript">
+		
+		/*
+		 * jQuery Simple Templates plugin 1.1
+		 *
+		 * http://andrew.hedges.name/tmpl/
+		 * http://docs.jquery.com/Plugins/Tmpl
+		 *
+		 * Copyright (c) 2008 Andrew Hedges, andrew@hedges.name
+		 *
+		 * Usage: $.tmpl('<div class="#{classname}">#{content}</div>', { 'classname' : 'my-class', 'content' : 'My content.' });
+		 *
+		 * The changes for version 1.1 were inspired by the discussion at this thread:
+		 *   http://groups.google.com/group/jquery-ui/browse_thread/thread/45d0f5873dad0178/0f3c684499d89ff4
+		 * 
+		 * Dual licensed under the MIT and GPL licenses:
+		 *   http://www.opensource.org/licenses/mit-license.php
+		 *   http://www.gnu.org/licenses/gpl.html
+		 */
+		
+		/*	NOTE: The only difference between this script and the publicly released version is
+			      I changed the public interface to tmpl2 so I could differentiate between the
+			      versions in the tests.
+		*/
+		
+		(function($) {
+			$.extend({
+				// public interface: $.tmpl
+				tmpl2 : function(tmpl, values) {
+					var rgxp, repr;
+					
+					// default to doing no harm
+					tmpl   = tmpl   || '';
+					values = values || {};
+					
+					// regular expression for matching our placeholders; e.g., #{my-cLaSs_name77}
+					rgxp = /#{([^{}]*)}/g;
+					
+					// function to making replacements
+					repr = function (str, match) {
+						return typeof values[match] === 'string' || typeof values[match] === 'number' ? values[match] : str;
+					};
+					
+					return tmpl.replace(rgxp, repr);
+				}
+			});
+		})(jQuery);
+		
+		</script>
+		<script type="text/javascript">
+		
+		var TESTS = (function () {
+			var _tmpls, _values, _timer, _doShort, _doLong;
+			
+			// templates to be tested
+			_tmpls = {
+				none  : 'This template has no symbols. ',
+				nokey : 'This template has a symbol (#{who-am-i-why-am-i-here?}) not in the replacement object. ',
+				short : 'This is a very #{adjective} template. ',
+				long  : '<div class="#{classname}">This is a longer #{noun}, with more substitutions and more text to search. #{big-substitution} There are some twists in this one, like weird characters (such as #{w31rd_ch@r@ct3rs}) in the key names and #{doubled}#{up} substitutions.</div>'
+			};
+			
+			// values to be substituted
+			_values = {
+				'adjective'			: 'simple',
+				'classname'			: 'result-set',
+				'noun'				: 'template',
+				'big-substitution'	: 'Wherein we substitute a much longer piece of text, one that has the potential to throw off our results by an order of magnitude if some bottleneck exits.',
+				'w31rd_ch@r@ct3rs'  : 'numbers, underscores, and "at" signs',
+				'doubled'			: 'immediately ',
+				'up'				: 'adjacent'
+			};
+			
+			// basic timer functions to measure how long each test takes
+			_timer = (function () {
+				var _start, _stop;
+				return {
+					start  : function () { _start = new Date().getTime(); },
+					stop   : function () { _stop  = new Date().getTime(); },
+					report : function () { return _stop - _start;         },
+					reset  : function () { _stop  = _start = 0;           }
+				};
+			})();
+			
+			// execute the test
+			_doTest = function (params) {
+				var html;
+				params.iters = params.iters || 100; // default to 100 iterations
+				html = '';
+				_timer.reset();
+				_timer.start();
+				// loop it
+				for (var i = 0; i < params.iters; ++i) {
+					html += $[params.version](_tmpls[params.length], _values);
+				}
+				_timer.stop();
+				$('#' + params.length + '-' + params.version).html(_timer.report());
+				$('#' + params.version).append(html);
+				return _timer.report();
+			};
+			
+			// public methods
+			return {
+				test101 : function () {
+					var version, iters, total;
+					version = 'tmpl';
+					iters   = $('select[name=iters]').val();
+					total   = 0;
+					total  += _doTest({
+						version : version,
+						length  : 'none',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'nokey',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'short',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'long',
+						iters   : iters
+					});
+					$('#total-tmpl').html(total);
+				},
+				test11 : function () {
+					var version, iters, total;
+					version = 'tmpl2';
+					iters   = $('select[name=iters]').val();
+					total   = 0;
+					total  += _doTest({
+						version : version,
+						length  : 'none',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'nokey',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'short',
+						iters   : iters
+					});
+					total  += _doTest({
+						version : version,
+						length  : 'long',
+						iters   : iters
+					});
+					$('#total-tmpl2').html(total);
+				},
+				reset : function () {
+					$('table td div').html('&nbsp;');
+					$('#results div').empty();
+				}
+			};
+		})();
+		
+		$(window).load(function () {
+			$('input[type=button]').attr('disabled', false);
+		});
+		
+		</script>
+	</body>
+</html>
