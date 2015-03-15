@@ -1,0 +1,32 @@
+# Introduction #
+
+Simple Templates is a jQuery plug-in that provides an easy way to merge content within JavaScript. It is designed to work much like the built-in Template class in [Prototype](http://prototypejs.org/).
+
+# Installation #
+
+  1. Download the plug-in
+  1. Link to the plug-in script from within your HTML (be sure it comes **after** your link to the jQuery library)
+  1. Start using Simple Templates in your code!
+
+# Usage #
+
+```
+$('#my-div').html($.tmpl('<div class="#{my-class}">#{my-content}</div>', {'my-class': 'blue-headers', 'my-content': 'This is what I have to say!'}));
+```
+
+Simple Templates works by searching your template string (the first parameter passed into `$.tmpl`) for tokens of the format `#{some-identifier}` and replacing them with corresponding keys from the values object (the second parameter).
+
+Here's another example:
+
+```
+var myTemplate = "Hello #{name}. I hear you're feeling #{emotion}.";
+var myValues = {
+   name : 'Joey Joe Joe',
+   emotion : 'like singing'
+};
+var myResult = $.tmpl(myTemplate, myValues);
+```
+
+`myResult` now holds the string: `Hello Joey Joe Joe. I hear you're feeling like singing.`
+
+This little plugin ain't rocket science. Heck, it ain't even computer science. But, it filled a need for me and I hope you find it useful, too. Enjoy!
